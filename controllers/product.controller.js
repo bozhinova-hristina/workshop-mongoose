@@ -1,4 +1,3 @@
-import { Product } from "../models/product.model.js";
 import { ProductService } from "../services/product.service.js";
 
 export class ProductController {
@@ -10,7 +9,7 @@ export class ProductController {
       res.json(products);
     } catch (error) {
       console.log(error);
-      res.status(404).send({ msg: error.message });
+      res.status(500).send({ msg: error.message });
     }
   }
 

@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const orderSchema = new Schema({
   date: {
-    type: Date,
+    type: String,
     required: true,
   },
   user: {

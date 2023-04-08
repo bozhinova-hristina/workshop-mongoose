@@ -1,4 +1,4 @@
-import { Order } from "../models/course.model.js";
+import { Order } from "../models/order.model.js";
 
 export class OrderService {
   // 1. Get all Orders
@@ -7,9 +7,9 @@ export class OrderService {
   }
   //   2. Get orders by id
   static async getOrderById(OrderId) {
-    const order = Order.findById(OrderId).populate("orders");
+    const order = await Order.findById(OrderId).populate("products");
 
-    if (!course) throw new Error("Order not found");
+    if (!order) throw new Error("Order not found");
 
     return order;
   }
@@ -22,5 +22,28 @@ export class OrderService {
     const createdOrder = await newOrder.save();
 
     return createdOrder;
+  }
+
+  // 4.Update an order
+  static async updateOrder(orderId, updateData) {
+    const order = await this.getOrderById(orderId);
+
+    if (updateData._id) throw new Error("Invalid data");
+
+    Object.assign(order, updateData);
+
+    const response = await order.save();
+    console.log("Update response", response);
+
+    return response;
+  }
+
+  // 5.Delete an order
+  static async deleteOrder(orderId) {
+    const response = await Order.findByIdAndDelete(orderId);
+
+    if (!response) throw new Error("Product not found");
+
+    console.log(response);
   }
 }
